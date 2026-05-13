@@ -11,8 +11,13 @@ There are two options for this assignment.
 
 ### Options
 #### Option A: pre-specificied dataset
-We have prepared a notebook in `Python` and `R`. This notebook creates a model for the *Estimation of Obesity Levels Based On Eating Habits and Physical Condition* dataset ((Mendoza Palechor and De la Hoz Manotas)[https://doi.org/10.1016/j.dib.2019.104344] and (UC Irvine ML repository)[https://doi.org/10.24432/C5H31Z]).
-The code we provide you is very simple and misses important coding practices. If you choose this option we ask you to improve the code in this notebook using the lessons from this course.
+We have prepared two notebooks in `Python` and `R`: 
+
+* `part1a_python.ipynb`
+* `part1a_r.Rmd`
+
+These notebooks create a model for the *Estimation of Obesity Levels Based On Eating Habits and Physical Condition* dataset ([Mendoza Palechor and De la Hoz Manotas](https://doi.org/10.1016/j.dib.2019.104344) and [UC Irvine ML repository](https://doi.org/10.24432/C5H31Z)).
+The code we provide you is very simple and misses important coding practices. If you choose this option we ask you to pick *one* of these noteboekks and improve the code using the lessons from this course. Think about things like modularity, logging, error messages, documentation, tests, dependencies, packaging and version control.
 
 #### Option B: your own project
 You can also choose to implement lessons from this course in one of your own (current) projects.
