@@ -1,6 +1,6 @@
 # Assignment - BMB504725: Reproducible Coding Practices for Health Data Sciences
 
-This practical assignment is the summative assessment the course. It consists out of two parts:
+This practical assignment is the summative assessment of the course. It consists out of two parts:
 
 1. Practical demonstration of skills (coding practices) - 60%
 2. Review and reflection assignment - 40%
@@ -17,7 +17,7 @@ We have prepared two notebooks in `Python` and `R`:
 * `part1a_r.Rmd`
 
 These notebooks create a model for the *Estimation of Obesity Levels Based On Eating Habits and Physical Condition* dataset ([Mendoza Palechor and De la Hoz Manotas](https://doi.org/10.1016/j.dib.2019.104344) and [UC Irvine ML repository](https://doi.org/10.24432/C5H31Z)).
-The code we provide you is very simple and misses important coding practices. If you choose this option we ask you to pick *one* of these noteboekks and improve the code using the lessons from this course. Think about things like modularity, logging, error messages, documentation, tests, dependencies, packaging and version control.
+The code we provide you is very simple and misses important coding practices. If you choose this option we ask you to pick *one* of these notebooks and improve the code using the lessons from this course. Think about things like modularity, logging, error messages, documentation, tests, dependencies, packaging and version control.
 
 #### Option B: your own project
 You can also choose to implement lessons from this course in one of your own (current) projects.
@@ -42,7 +42,7 @@ Please follow these instructions carefully. Without following these instructions
 
 ## Part 2: Review and reflection
 For the second part of this course we ask you to do two things. 
-Again, assesment criteria can be found in the rubric.
+Again, assessment criteria can be found in the rubric.
 
 ### Part 2a: review
 Review another student their code by providing a review on their pull request.
@@ -60,7 +60,7 @@ Using generative AI without disclosing this will make you ineligeble to pass the
 
 If generative AI is used in *Part 1* of the course this should be disclosed in full in the reflection: how was it used, how was it helpful and why was it needed?
 
-For *part 2* of the course the use of the generative AI is prohibited.
+For *Part 2* of the course the use of the generative AI is prohibited.
 
-* Reviewing somebody else their code should be done by the student themselves without AI assistance. This is especially important when the code to be reviewed is another student's private project. This shou.d be done confidentially, and using generative AI would break this confidentiality (potential data leak).
+* Reviewing somebody's else code should be done by the student themselves without AI assistance. This is especially important when the code to be reviewed is another student's private project. This shou.d be done confidentially, and using generative AI would break this confidentiality (potential data leak).
 * Reflection, as the word says, is about reflecting on your work. Using generative AI for this decreases the learning potential.

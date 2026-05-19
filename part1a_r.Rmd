@@ -18,10 +18,10 @@ In this assignment you'll refactor this code using the principles taught in the 
 For the full assessment criteria see the Rubric. For full details on the assignment see the `README.md`
 
 ```{r}
-install.packages('httr')
-install.packages('readr')
-install.packages('ggplot2')
-install.packages('randomForest')
+install.packages('httr', repos='http://cran.us.r-project.org')
+install.packages('readr', repos='http://cran.us.r-project.org')
+install.packages('ggplot2', repos='http://cran.us.r-project.org')
+install.packages('randomForest', repos='http://cran.us.r-project.org')
 
 library(httr)
 library(readr)
