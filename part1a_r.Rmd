@@ -16,6 +16,11 @@ In this assignment you'll refactor this code using the principles taught in the 
 * etc.
 
 For the full assessment criteria see the Rubric. For full details on the assignment see the `README.md`
+```{r}
+getwd()
+list.files()
+```
+
 
 ```{r}
 install.packages('httr', repos='http://cran.us.r-project.org')
