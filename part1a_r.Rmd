@@ -75,19 +75,15 @@ obesity$bmi <- obesity$weight / (obesity$height)^2
 
 plot(obesity$bmi, type = 'l')
 
-## This can go, because you already have a variable with these categories
-  ## Also the other variable is more specific
-  ## It also is not used anywhere else
-
-#obesity <- obesity %>%
-  #mutate(
-   # outcome = case_when(
-      #bmi < 18.5 ~ "0_underweight",
-      #bmi < 25   ~ "1_normal",
-      #bmi < 30   ~ "2_overweight",
-      #TRUE       ~ "3_obese"
-   # )
- # )
+obesity <- obesity %>%
+  mutate(
+    label = case_when(
+      bmi < 18.5 ~ "0_underweight",
+      bmi < 25   ~ "1_normal",
+      bmi < 30   ~ "2_overweight",
+      TRUE       ~ "3_obese"
+    )
+  )
 
 
 ```
@@ -137,65 +133,87 @@ obesity_web$cons_between <- as.numeric(factor(obesity_web$cons_between, levels =
 obesity_web$cons_alcohol <- as.numeric(factor(obesity_web$cons_alcohol, levels = c('no', 'Sometimes', 'Frequently', 'Always'))) - 1
 ```
 
-```{r}
-## This can go, because these are just all variables.
-  ## Also, they are still the 'wrong' names. 
-# X_columns <- c('Age', 'Gender', 'family_history_with_overweight',
-            #    'FAVC', 'FCVC', 'NCP', 'CAEC', 'SMOKE', 'CH2O', 'SCC', 'FAF', 'TUE',
-            #    'CALC', 'MTRANS')
-```
-
 ## Regression problem
 
-```{r}
-classes <- sort(unique(df_web$label))
-freq <- table(df_web$label)
-class_weight <- length(df_web$label) / (length(classes) * as.numeric(freq))
+```{r calculating class weights}
+## Storing the prevalence of the classes
+freq <- table(obesity_web$label)
+
+## Calculating the class weight
+class_weight <- length(obesity_web$label) / (length(unique(obesity_web$label)) * as.numeric(freq))
+
+## Assigning names to the weights
 names(class_weight) <- names(freq)
 
-print(classes)
 print(class_weight)
 ```
 
-```{r}
+```{r split train and test set}
 # Note: result can deviate from the python code due to random seed!
 set.seed(42)
-idx <- seq_len(nrow(df_web))
 
-idx_train <- sample(idx, size = floor(0.7 * length(idx)))
-idx_test <- setdiff(idx, idx_train)
+## Create an index variable
+index <- seq_len(nrow(obesity_web))
 
-X_train <- df_web[idx_train, X_columns]
-X_test <- df_web[idx_test, X_columns]
-y_train <- df_web$BMI[idx_train]
-y_test <- df_web$BMI[idx_test]
+# Create train and test datasets
+## Make the indices for the train and test dataset
+index_train <- sample(index, size = floor(0.7 * length(index)))
+index_test <- setdiff(index, index_train)
 
-sample_weights <- class_weight[df_web$label[idx_train]]
+## Create the actual datasets
+obesity_train <- obesity_web[index_train,]
+obesity_test <- obesity_web[index_test,]
+
+## Create a train and test set for the bmi variable
+bmi_train <- obesity_web$bmi[index_train]
+bmi_test <- obesity_web$bmi[index_test]
+
+## Assign the weight to the train dataset
+obesity_train_weighted <- class_weight[obesity_web$label[index_train]]
 ```
 
-```{r}
-reg <- lm(BMI ~ ., data = cbind(X_train, BMI = y_train))
-reg <- randomForest(x = X_train, y = y_train, ntree = 100, nodesize = 5, maxnodes = 20)
+```{r model specifying}
+## Making the linear model
+linear_mod <- lm(bmi ~ ., data = obesity_train)
+
+## Making a random forest model
+random_forest_mod <- randomForest(x = obesity_train, y = bmi_train, ntree = 100, nodesize = 5, maxnodes = 20)
 ```
 
-```{r}
-preds <- predict(reg, X_test)
+```{r predict the models}
+## Predict based on the regression
+preds_linear_mod <- predict(linear_mod, obesity_test)
 
-plot(preds, y_test, pch = 16, col = rgb(0, 0, 0, 0.5))
-abline(a = 0, b = 1, col = 'red', lty = 3)
+## Predict based on the random forest
+preds_random_forest_mod <- predict(random_forest_mod, obesity_test)
 ```
 
-```{r}
-plot(predict(reg, X_train), y_train, pch = 16, col = rgb(0, 0, 0, 0.5))
-abline(a = 0, b = 1, col = 'red', lty = 3)
+```{r plot the models}
+## plot the predictions for bmi with the linear regression model
+plot(preds_linear_mod, bmi_test,
+     pch = 16,
+     col = rgb(0, 0, 0, 0.5))
+abline(a = 0, b = 1, col = "red", lty = 3)
+
+## plot the predictions for bmi with the random forest model
+plot(preds_random_forest_mod, bmi_test,
+     pch = 16,
+     col = rgb(0, 0, 0, 0.5))
+abline(0, 1, col = "red", lty = 3)
 ```
 
-```{r}
-sample_weights_test <- class_weight[df_web$label[idx_test]]
+```{r test the Mean Absolute Error}
+## Create weights for the test set
+sample_weights_test <- class_weight[obesity_test$label]
 
-mae_baseline <- sum(abs(y_test - rep(mean(y_train), length(y_test))) * sample_weights_test) / sum(sample_weights_test)
-mae_model <- mean(abs(y_test - preds) * sample_weights_test)
+## Predict the Mean Absolute Error when predicting the mean
+mae_baseline <- sum(abs(bmi_test - rep(mean(bmi_train), length(bmi_test))) * sample_weights_test) / sum(sample_weights_test)
 
+## Predicht the actual Mean Absolute Error with the mean
+mae_model <- sum(abs(bmi_test - preds_linear_mod) * sample_weights_test) /
+             sum(sample_weights_test)
+
+## Print the Mean Absolute Error of the models
 cat(sprintf('Mean absolute error (baseline): %.3f\n', mae_baseline))
 cat(sprintf('Mean absolute error: %.3f\n', mae_model))
 ```
