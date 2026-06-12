@@ -5,18 +5,6 @@ output: html_notebook
 
 The below code downloads data from the obesity dataset from the [UC Irvine ML repository](https://doi.org/10.24432/C5H31Z). It then preprocesses the data, fits a machine-learning model and shows results. The coding style intentionally is not perfect.
 
-In this assignment you'll refactor this code using the principles taught in the Reproducible Coding practices course. Things to consider are for example:
-
-* Modularity
-* Documentation
-* Tests
-* Packaging
-* Dependencies
-* Version control
-* etc.
-
-For the full assessment criteria see the Rubric. For full details on the assignment see the `README.md`
-
 ```{r installing and loading packages}
 library(httr)
 library(readr)
