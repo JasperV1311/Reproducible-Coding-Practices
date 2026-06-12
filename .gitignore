@@ -1,3 +1,8 @@
 data/
 .Rproj.user
 .positai
+.RData
+.Rhistory
+obesity.zip
+*.csv
+*.html
