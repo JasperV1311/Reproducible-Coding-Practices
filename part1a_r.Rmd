@@ -18,17 +18,15 @@ In this assignment you'll refactor this code using the principles taught in the 
 For the full assessment criteria see the Rubric. For full details on the assignment see the `README.md`
 
 ```{r installing and loading packages}
-#install.packages('httr', repos='http://cran.us.r-project.org')
-#install.packages('readr', repos='http://cran.us.r-project.org')
-#install.packages('ggplot2', repos='http://cran.us.r-project.org')
-#install.packages('randomForest', repos='http://cran.us.r-project.org')
-#install.packages("dplyr", repos='http://cran.us.r-project.org')
-
 library(httr)
 library(readr)
 library(ggplot2)
 library(randomForest)
 library(dplyr)
+```
+
+```{r functions}
+source("functions.R")
 ```
 
 ```{r loading the data}
@@ -97,6 +95,7 @@ obesity_synthetic <- obesity[499:nrow(obesity), ]
 ```
 
 ```{r converting variables to numeric}
+
 ## Make the mode of transport variable binary
 obesity_web <- obesity_web %>%
   mutate(
@@ -114,23 +113,15 @@ obesity_web$gender <- ifelse(obesity_web$gender == "Male", 1L, 0L)
 
 obesity_web$gender <- as.numeric(obesity_web$gender)
 
-## Define the binary variables
-binary_vars <- c(
-  "family_history_obesity",
-  "freq_highcal",
-  "smoking_status",
-  "cal_monitoring"
-)
-
 ## Convert the binary variables
-for (col in binary_vars) {
-  obesity_web[[col]] <- ifelse(obesity_web[[col]] == "yes", 1L, 0L)
-}
+obesity_web$family_history_obesity <- convert_binary(obesity_web$family_history_obesity)
+obesity_web$freq_highcal <- convert_binary(obesity_web$freq_highcal)
+obesity_web$smoking_status <- convert_binary(obesity_web$smoking_status)
+obesity_web$cal_monitoring <- convert_binary(obesity_web$cal_monitoring)
 
 ## Converting the ordinal variables to numeric
-obesity_web$cons_between <- as.numeric(factor(obesity_web$cons_between, levels = c('no', 'Sometimes', 'Frequently', 'Always'))) - 1
-
-obesity_web$cons_alcohol <- as.numeric(factor(obesity_web$cons_alcohol, levels = c('no', 'Sometimes', 'Frequently', 'Always'))) - 1
+obesity_web$cons_between <- convert_ordinal(obesity_web$cons_between)
+obesity_web$cons_alcohol <- convert_ordinal(obesity_web$cons_alcohol)
 ```
 
 ## Regression problem
